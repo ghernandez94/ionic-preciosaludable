@@ -1,5 +1,7 @@
 {
   "name": "ionic-preciosaludable",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

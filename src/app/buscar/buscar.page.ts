@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ProductoService } from '../services/producto.service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-buscar',
@@ -8,13 +9,15 @@ import { ProductoService } from '../services/producto.service';
 })
 export class BuscarPage {
   protected textoBuscado: string;
-  productos: any = [];
+  productos: any = null;
 
-  constructor(private productoservice: ProductoService) {
+  constructor(
+    private productoservice: ProductoService,
+    private storage: Storage) {
   }
 
   buscar() {
-    this.productos = [];
+    this.productos = null;
 
     if (this.textoBuscado.length !== 0) {
       this.productoservice
@@ -23,7 +26,9 @@ export class BuscarPage {
           this.productos = data;
       });
     }
+  }
 
-    console.log(this.productos);
+  clickItem() {
+    alert('Item');
   }
 }
