@@ -4,23 +4,27 @@
 
 <ion-content>
     <ion-toolbar>
-        <ion-searchbar [(ngModel)]="textoBuscado" placeholder="Buscar fármacos" debounce="500" animated clearIcon
-            (ionChange)="buscar(textoBuscado)">
+        <ion-searchbar [(ngModel)]="textoBuscado" placeholder="Buscar fármacos" debounce="500" animated clearIcon (ionChange)="buscar(textoBuscado)">
         </ion-searchbar>
     </ion-toolbar>
-    <ion-list *ngIf="productos == null else resultados">
-        <ion-list-header>
-            <ion-label>Búsquedas recientes</ion-label>
-        </ion-list-header>
-        <ion-item>
-        </ion-item>
-    </ion-list>
+    <ng-container *ngIf="productos == null else resultados">
+        <ion-list *ngIf="busquedasRecientes?.length > 0">
+            <ion-list-header>
+                <ion-label>Búsquedas recientes</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let recientes of busquedasRecientes">
+                <ion-text color="primary">
+                    <h3>{{recientes.nombreComercialProducto}}</h3>
+                </ion-text>
+            </ion-item>
+        </ion-list>
+    </ng-container>
     <ng-template #resultados>
         <ion-list *ngIf="productos.length > 0">
             <ion-list-header>
                 <ion-label>Resultados de búsqueda</ion-label>
             </ion-list-header>
-            <ion-item *ngFor="let prd of productos" (click)="clickItem()">
+            <ion-item *ngFor="let prd of productos" (click)="clickItem(prd)">
                 <ion-label>
                     <ion-text color="primary">
                         <h2>{{prd.nombreComercialProducto}}</h2>
