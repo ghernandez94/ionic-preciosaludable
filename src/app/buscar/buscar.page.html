@@ -14,8 +14,11 @@
             </ion-list-header>
             <ion-item *ngFor="let recientes of busquedasRecientes">
                 <ion-text color="primary">
-                    <h3>{{recientes.nombreComercialProducto}}</h3>
+                    <h4>{{recientes.nombreComercialProducto}}</h4>
                 </ion-text>
+                <ion-button slot="end" fill="clear" (click)="removeReciente(recientes)">
+                    <ion-icon slot="icon-only" name="close"></ion-icon>
+                </ion-button>
             </ion-item>
         </ion-list>
     </ng-container>
@@ -24,7 +27,7 @@
             <ion-list-header>
                 <ion-label>Resultados de búsqueda</ion-label>
             </ion-list-header>
-            <ion-item *ngFor="let prd of productos" (click)="clickItem(prd)">
+            <ion-item *ngFor="let prd of productos" (click)="clickItemBuscado(prd)">
                 <ion-label>
                     <ion-text color="primary">
                         <h2>{{prd.nombreComercialProducto}}</h2>
@@ -32,7 +35,7 @@
                     <p>{{prd.laboratorioIdLaboratorioNavigation.nombreLaboratorio}}</p>
                 </ion-label>
                 <ion-text slot="end" color="secondary">
-                    <h4>$1.000</h4>
+                    <h4>{{prd.detalleprecio[0]?.precioFarmaco | currency:'CLP':'symbol-narrow'}}</h4>
                 </ion-text>
             </ion-item>
         </ion-list>

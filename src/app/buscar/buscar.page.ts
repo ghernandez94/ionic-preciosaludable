@@ -40,20 +40,28 @@ export class BuscarPage implements OnInit {
     }
   }
 
-  clickItem(prd: any) {
-    const producto = new Producto(prd);
-    if (this.deepIndexOf(this.busquedasRecientes, producto) === -1) {
-      this.busquedasRecientes.push(producto);
+  clickItemBuscado(obj: any) {
+    const producto = new Producto(obj);
+    this.addReciente(producto);
+  }
+
+  // Lógica de búsquedas recientes
+  addReciente(prd: Producto) {
+    if (this.productoIndexOf(this.busquedasRecientes, prd) === -1) {
+      this.busquedasRecientes.push(prd);
+      this.storage.set('busquedasRecientes', this.busquedasRecientes);
     }
   }
 
+  removeReciente(obj: object) {
+    const index = this.productoIndexOf(this.busquedasRecientes, new Producto(obj));
+    this.busquedasRecientes.splice(index, 1);
+    this.storage.set('busquedasRecientes', this.busquedasRecientes);
+  }
 
-  // Malo
-  deepIndexOf(arr, obj) {
-    return arr.findIndex  (cur => {
-      return Object.keys(obj).every((key => {
-        return obj[key] === cur[key];
-      }));
+  productoIndexOf(arr: Array<Producto>, search: Producto) {
+    return arr.findIndex  (producto => {
+      return producto.idProducto === search.idProducto;
     });
   }
 }
