@@ -1,6 +1,7 @@
 import { SucursalService } from './../../services/sucursal.service';
 import { Component, OnInit } from '@angular/core';
-import { Map, tileLayer, marker } from 'leaflet';
+import { Map, tileLayer, marker, circleMarker } from 'leaflet';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Sucursal } from 'src/app/shared/models/sucursal';
 
 @Component({
@@ -14,30 +15,35 @@ export class MapaPage implements OnInit {
   propertyList = [];
   sucursales: any = [];
 
-  constructor(private sucursalService: SucursalService) { }
+  constructor(private sucursalService: SucursalService,
+              private geolocation: Geolocation) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ionViewDidEnter() {
-    this.map = new Map('map').setView([-33.4427092, -70.6461375], 16);
 
-    tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-      attribution: 'Precio Saludable'
-    }).addTo(this.map);
+    this.geolocation.getCurrentPosition().then((resp) => {
+      const lat = resp.coords.latitude;
+      const lon = resp.coords.longitude;
 
-    this.sucursalService
-      .buscarPorCoordenadas(-33.4494826, -70.6461201)
-      .subscribe((data: Array<Sucursal>) => {
-        this.sucursales = data;
-        this.leafletMap();
+      this.map = new Map('map').setView([lat, lon], 16);
+      this.map.locate({watch: true});
+      tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+        {attribution: 'Precio Saludable'})
+          .addTo(this.map);
+
+      circleMarker([lat, lon])
+        .addTo(this.map);
+
+      this.sucursalService
+        .buscarPorCoordenadas(-33.4494826, -70.6461201)
+        .subscribe((data: Array<Sucursal>) => {
+          this.sucursales = data;
+          this.leafletMap();
+        });
+    }).catch((error) => {
+      console.log('Error getting location', error);
     });
-
-    // fetch('./assets/data.json').then(res => res.json())
-    // .then(json => {
-    //   this.propertyList = json.properties;
-    //   this.leafletMap();
-    // });
   }
 
   leafletMap() {
@@ -45,9 +51,10 @@ export class MapaPage implements OnInit {
       const bindPopup = `${suc.farmaciaIdFarmaciaNavigation.nombreFarmacia}
         <br>${suc.direccionSucursal},${suc.comunaIdComunaNavigation.nombreComuna}`;
 
-      marker([suc.latitud, suc.longitud]).addTo(this.map)
-        .bindPopup(bindPopup)
-        .openPopup();
+      marker([suc.latitud, suc.longitud])
+        .addTo(this.map)
+        .bindPopup(bindPopup);
+        // .openPopup();
     }
   }
 
