@@ -15,7 +15,7 @@ export class SucursalService extends PrecioSaludableService {
   // Busca por principio activo y nombre comercial
   buscarPorCoordenadas(latitud, longitud): Observable<Sucursal[]> {
     return this.sucursales = this.http.get<Sucursal[]>(this.endpoint +
-    '/api/sucursal/GetSucursalesByLocation?latitud=' + latitud + '&longitud=' + longitud , this.httpOptions)
+    '/api/sucursal/ByLocation?latitud=' + latitud + '&longitud=' + longitud , this.httpOptions)
     .pipe(
       retry(1),
       catchError(this.handleError)

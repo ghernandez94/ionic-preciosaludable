@@ -4,11 +4,16 @@
 
 <ion-content>
     <ion-toolbar>
-        <ion-searchbar [(ngModel)]="textoBuscado" placeholder="Buscar fármacos" debounce="500" animated clearIcon (ionChange)="buscar(textoBuscado)">
+        <ion-searchbar [(ngModel)]="textoBuscado" 
+                       placeholder="Buscar fármacos" 
+                       debounce="500" 
+                       animated 
+                       clearIcon 
+                       (ionChange)="buscar(textoBuscado)">
         </ion-searchbar>
     </ion-toolbar>
     <ng-container *ngIf="productos == null else resultados">
-        <ion-list *ngIf="busquedasRecientes?.length > 0">
+        <ion-list *ngIf="busquedasRecientes?.length > 0 else default">
             <ion-list-header>
                 <ion-label>Búsquedas recientes</ion-label>
             </ion-list-header>
@@ -21,6 +26,19 @@
                 </ion-button>
             </ion-item>
         </ion-list>
+        <ng-template #default>
+            <ion-grid style="width: 80%;">
+                <ion-row>
+                    <ion-col>
+                    <div class="ion-text-center">
+                        <h3><ion-icon name="search" style="zoom:3.0;"></ion-icon></h3>
+                        <h5>Buscador de medicamentos</h5>
+                        <small>Ahorra dinero encontrando los precios más convenientes del mercado</small>
+                    </div>
+                    </ion-col>                        
+                </ion-row>
+            </ion-grid>
+        </ng-template>
     </ng-container>
     <ng-template #resultados>
         <ion-list *ngIf="productos.length > 0">
@@ -33,6 +51,7 @@
                         <h2>{{prd.nombreComercialProducto}}</h2>
                     </ion-text>
                     <p>{{prd.laboratorioIdLaboratorioNavigation.nombreLaboratorio}}</p>
+                    <p>{{prd.detalleprecio[0].sucursalIdSucursalNavigation.farmaciaIdFarmaciaNavigation.nombreFarmacia}}</p>
                 </ion-label>
                 <ion-text slot="end" color="secondary">
                     <h4>{{prd.detalleprecio[0]?.precioFarmaco | currency:'CLP':'symbol-narrow'}}</h4>

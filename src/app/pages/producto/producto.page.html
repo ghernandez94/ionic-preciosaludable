@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button text=""></ion-back-button>
+    <ion-title *ngIf="producto">{{producto.nombreComercialProducto}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list *ngIf="producto">
+      <ion-list-header>
+          <ion-label>Disponible en: </ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let dp of producto.detalleprecio">
+          <ion-label>
+              <ion-text color="primary">
+                  <h2>{{dp.sucursalIdSucursalNavigation.farmaciaIdFarmaciaNavigation.nombreFarmacia}}</h2>
+              </ion-text>
+              <p>{{dp.sucursalIdSucursalNavigation.direccionSucursal}}, {{dp.sucursalIdSucursalNavigation.comunaIdComunaNavigation.nombreComuna}}</p>
+              <p></p>
+          </ion-label>
+          <ion-text slot="end" color="secondary">
+              <h5>{{dp.precioFarmaco | currency:'CLP':'symbol-narrow'}}</h5>
+          </ion-text>
+      </ion-item>
+  </ion-list>
+</ion-content>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../services/producto.service';
 import { Storage } from '@ionic/storage';
 import { Producto } from '../shared/models/producto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-buscar',
@@ -10,12 +11,13 @@ import { Producto } from '../shared/models/producto';
 })
 export class BuscarPage implements OnInit {
   protected textoBuscado: string;
-  protected productos: any = null;
+  protected productos: Array<Producto> = null;
   protected busquedasRecientes: Array<Producto>;
 
   constructor(
     private productoservice: ProductoService,
-    private storage: Storage) {
+    private storage: Storage,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -34,7 +36,7 @@ export class BuscarPage implements OnInit {
     if (this.textoBuscado.trim().length !== 0) {
       this.productoservice
         .buscar(this.textoBuscado)
-        .subscribe((data: {}) => {
+        .subscribe((data) => {
           this.productos = data;
       });
     }
@@ -43,6 +45,7 @@ export class BuscarPage implements OnInit {
   clickItemBuscado(obj: any) {
     const producto = new Producto(obj);
     this.addReciente(producto);
+    this.router.navigate(['/producto', producto.idProducto]);
   }
 
   // Lógica de búsquedas recientes

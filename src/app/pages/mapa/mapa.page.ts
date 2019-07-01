@@ -13,7 +13,7 @@ export class MapaPage implements OnInit {
 
   map: Map;
   propertyList = [];
-  sucursales: any = [];
+  sucursales: Array<Sucursal>;
 
   constructor(private sucursalService: SucursalService,
               private geolocation: Geolocation) { }
@@ -23,8 +23,10 @@ export class MapaPage implements OnInit {
   ionViewDidEnter() {
 
     this.geolocation.getCurrentPosition().then((resp) => {
-      const lat = resp.coords.latitude;
-      const lon = resp.coords.longitude;
+      // const lat = resp.coords.latitude;
+      // const lon = resp.coords.longitude;
+      const lat = -33.441533;
+      const lon = -70.647057;
 
       this.map = new Map('map').setView([lat, lon], 16);
       this.map.locate({watch: true});
@@ -36,7 +38,7 @@ export class MapaPage implements OnInit {
         .addTo(this.map);
 
       this.sucursalService
-        .buscarPorCoordenadas(-33.4494826, -70.6461201)
+        .buscarPorCoordenadas(lat, lon)
         .subscribe((data: Array<Sucursal>) => {
           this.sucursales = data;
           this.leafletMap();
@@ -49,7 +51,8 @@ export class MapaPage implements OnInit {
   leafletMap() {
     for (const suc of this.sucursales) {
       const bindPopup = `${suc.farmaciaIdFarmaciaNavigation.nombreFarmacia}
-        <br>${suc.direccionSucursal},${suc.comunaIdComunaNavigation.nombreComuna}`;
+        <br>${suc.direccionSucursal},${suc.comunaIdComunaNavigation.nombreComuna}
+        <br><ion-icon name="call"></ion-icon> ${suc.telefonoSucursal}`;
 
       marker([suc.latitud, suc.longitud])
         .addTo(this.map)

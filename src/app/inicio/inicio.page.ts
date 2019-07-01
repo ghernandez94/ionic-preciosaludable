@@ -10,7 +10,7 @@ export class InicioPage {
 
   constructor(private router: Router) {}
 
-  redirectToMap(){
+  redirectToMap() {
     this.router.navigateByUrl('/mapa');
   }
 }
