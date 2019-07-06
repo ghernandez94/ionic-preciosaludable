@@ -23,8 +23,11 @@ export class MapaPage implements OnInit {
   ionViewDidEnter() {
 
     this.geolocation.getCurrentPosition().then((resp) => {
+      // Ubicación real
       // const lat = resp.coords.latitude;
       // const lon = resp.coords.longitude;
+      // ---------------------------------
+      // Ubicación para pruebas
       const lat = -33.441533;
       const lon = -70.647057;
 

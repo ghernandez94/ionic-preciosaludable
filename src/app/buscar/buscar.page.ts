@@ -42,13 +42,20 @@ export class BuscarPage implements OnInit {
     }
   }
 
-  clickItemBuscado(obj: any) {
+  clickItemBuscado(obj: object) {
     const producto = new Producto(obj);
+    const idProducto = producto.idProducto;
     this.addReciente(producto);
-    this.router.navigate(['/producto', producto.idProducto]);
+    this.router.navigate(['/producto', idProducto]);
   }
 
   // Lógica de búsquedas recientes
+  clickReciente(obj: object) {
+    const producto: Producto = new Producto(obj);
+    const idProducto = producto.idProducto;
+    this.router.navigate(['/producto', idProducto]);
+  }
+
   addReciente(prd: Producto) {
     if (this.productoIndexOf(this.busquedasRecientes, prd) === -1) {
       this.busquedasRecientes.push(prd);

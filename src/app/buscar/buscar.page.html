@@ -17,7 +17,7 @@
             <ion-list-header>
                 <ion-label>Búsquedas recientes</ion-label>
             </ion-list-header>
-            <ion-item *ngFor="let recientes of busquedasRecientes">
+            <ion-item *ngFor="let recientes of busquedasRecientes" (click)="clickReciente(recientes)">
                 <ion-text color="primary">
                     <h4>{{recientes.nombreComercialProducto}}</h4>
                 </ion-text>
@@ -53,7 +53,7 @@
                     <p>{{prd.laboratorioIdLaboratorioNavigation.nombreLaboratorio}}</p>
                     <p>{{prd.detalleprecio[0].sucursalIdSucursalNavigation.farmaciaIdFarmaciaNavigation.nombreFarmacia}}</p>
                 </ion-label>
-                <ion-text slot="end" color="secondary">
+                <ion-text slot="end" color="tertiary">
                     <h4>{{prd.detalleprecio[0]?.precioFarmaco | currency:'CLP':'symbol-narrow'}}</h4>
                 </ion-text>
             </ion-item>

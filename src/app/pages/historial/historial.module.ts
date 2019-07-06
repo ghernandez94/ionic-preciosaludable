@@ -5,13 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ProductoPage } from './producto.page';
-import { ConcentracionJoinPipe } from 'src/app/shared/pipes/concentracion-join.pipe';
+import { HistorialPage } from './historial.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ProductoPage
+    component: HistorialPage
   }
 ];
 
@@ -22,6 +21,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ProductoPage, ConcentracionJoinPipe]
+  declarations: [HistorialPage]
 })
-export class ProductoPageModule {}
+export class HistorialPageModule {}
